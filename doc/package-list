@@ -1,0 +1,7 @@
+com.ncr.application
+com.ncr.application.tests
+com.ncr.reversegeocode.core
+com.ncr.reversegeocode.core.exception
+com.ncr.reversegeocode.core.impl
+com.ncr.reversegeocode.model
+com.ncr.reversegeocode.utils
