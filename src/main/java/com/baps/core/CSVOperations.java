@@ -6,6 +6,7 @@
 package com.baps.core;
 
 import com.baps.model.Member;
+import com.baps.model.Zipcode;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.CSVWriter;
@@ -28,8 +29,8 @@ import java.util.List;
  */
 public class CSVOperations {
 
-    private static final String OBJECT_LIST_SAMPLE = "./object-list-sample.csv";
-
+    private static final String OBJECT_LIST_SAMPLE = "./BAPS_Karyakars.csv";
+    private static final String OBJECT_ZIP_LIST_SAMPLE = "./ZipCodes.csv";
     public static List<Member> getMembersFromCSV(String fileName) throws IOException {
 
         List<Member> members = new ArrayList<>();
@@ -46,6 +47,24 @@ public class CSVOperations {
         }
 
         return members;
+    }
+    
+    public static List<Zipcode> getZipCodesFromCSV(String fileName) throws IOException {
+
+        List<Zipcode> zipcodes = new ArrayList<>();
+        fileName = (fileName != null ? fileName : OBJECT_ZIP_LIST_SAMPLE);
+
+        try (Reader reader = Files.newBufferedReader(Paths.get(fileName))) {
+            CsvToBean csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(Zipcode.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+
+            zipcodes = csvToBean.parse();
+
+        }
+
+        return zipcodes;
     }
 
     public static String generateCSVFile(List<Member> members, String filePath) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {

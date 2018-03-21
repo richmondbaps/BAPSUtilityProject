@@ -35,6 +35,7 @@ public class Member {
     private String ISVOLUNTEER;
     private String LANGUAGE;
     private String REMARKS;
+    private String SUBZIPCODE;
 
     public String getMEMBERID() {
         return MEMBERID;
@@ -211,8 +212,16 @@ public class Member {
     public void setREMARKS(String REMARKS) {
         this.REMARKS = REMARKS;
     }
+    
+    public String getSUBZIPCODE() {
+		return SUBZIPCODE;
+	}
 
-    @Override
+	public void setSUBZIPCODE(String sUBZIPCODE) {
+		SUBZIPCODE = sUBZIPCODE;
+	}
+
+	@Override
     public String toString() {
         return "Member{" + "MEMBERID=" + MEMBERID + ", FIRSTNAME=" + FIRSTNAME + ", MIDDLENAME=" + MIDDLENAME + ", LASTNAME=" + LASTNAME + ", SPOUSENAME=" + SPOUSENAME + ", ADDRESS1=" + ADDRESS1 + ", ADDRESS2=" + ADDRESS2 + ", CITY=" + CITY + ", STATE=" + STATE + ", ZIPCODE=" + ZIPCODE + ", SATSANG_CATEGORY=" + SATSANG_CATEGORY + ", MANDAL=" + MANDAL + ", RELATION=" + RELATION + ", ZONE=" + ZONE + ", PRIMARYCELL=" + PRIMARYCELL + ", PRIMARYHOME=" + PRIMARYHOME + ", EMAIL=" + EMAIL + ", GENDER=" + GENDER + ", ISKARYAKAR=" + ISKARYAKAR + ", ISVOLUNTEER=" + ISVOLUNTEER + ", LANGUAGE=" + LANGUAGE + ", REMARKS=" + REMARKS + '}';
     }

@@ -7,11 +7,13 @@ package com.baps.core;
 
 import com.baps.dbconnections.DBUtility;
 import com.baps.model.Member;
+import com.baps.model.Zipcode;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,12 +21,19 @@ import java.util.List;
  */
 public class BAPSOperations {
 
-    public int uploadDataFromFileToDB(String filePath) throws IOException, SQLException {
+    public int uploadKaryakarsDataFromFileToDB(String filePath) throws IOException, SQLException {
 
         List<Member> membersFromCSV = CSVOperations.getMembersFromCSV(filePath);
         return DBUtility.insertAllMembers(membersFromCSV);
     }
 
+    public int uploadZipCodesDataFromFileToDB(String filePath) throws IOException, SQLException {
+
+        List<Zipcode> zipsFromCSV = CSVOperations.getZipCodesFromCSV(filePath);
+        return DBUtility.insertAllZip(zipsFromCSV);
+    }
+
+    
     public void exportAllDataToCSV() throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, SQLException {
         List<Member> members = DBUtility.getMembers(null);
         Member member = new Member();
@@ -33,13 +42,31 @@ public class BAPSOperations {
         members.add(member);
         CSVOperations.generateCSVFile(members, null);
     }
+    
+    public void uploadKaryakarsDetails(String fileName) throws IOException, SQLException{
+    	BAPSOperations operations = new BAPSOperations();
+    	fileName = (fileName!=null ? fileName : "/home/mac/Desktop/Spiritual/BAPS_Work/Westendzone.csv");
+        int dataUpdated = operations.uploadKaryakarsDataFromFileToDB(fileName);
+        System.out.println("Total Data Updated: "+dataUpdated);
+    }
+    
+    public void uploadZipDatabase(String fileName) throws IOException, SQLException{
+    	BAPSOperations operations = new BAPSOperations();
+    	fileName = (fileName!=null ? fileName : "/home/mac/Desktop/Spiritual/BAPS_Work/free-zipcode-database.csv");
+        int dataUpdated = operations.uploadZipCodesDataFromFileToDB(fileName);
+        System.out.println("Total Data Updated: "+dataUpdated);
+    }
 
+    public Map<String,String> getZoneCounts(String zone) throws SQLException {
+    	return DBUtility.zipZoneGroups(zone);
+    }
     public static void main(String[] args) throws IOException, SQLException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-        BAPSOperations operations = new BAPSOperations();
-//        String fileName = "/home/mac/Desktop/Spiritual/BAPS_Work/Westendzone.csv";
-//        int dataUpdated = operations.uploadDataFromFileToDB(fileName);
-//        System.out.println("Total Data Updated: "+dataUpdated);
-        operations.exportAllDataToCSV();
+    	BAPSOperations operations = new BAPSOperations();
+    	System.out.println(operations.getZoneCounts(null));
+    	//operations.uploadZipDatabase(null);
+        //operations.exportAllDataToCSV();
+//    	operations.uploadKaryakarsDataFromFileToDB("/home/mac/Desktop/Spiritual/BAPS_Work/Westendzone.csv");
+    	
 
     }
 }
